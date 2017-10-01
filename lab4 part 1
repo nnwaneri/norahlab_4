@@ -1,0 +1,46 @@
+//Norah Nwaneri
+
+#include<iostream>
+#include<string>
+#include<stack>
+#include<queue>
+
+using namespace std;
+
+int main(){
+		stack<char> s;
+		queue<char> q;
+		string myString;
+		int i = 0;
+		char myChar;
+		cout << "Please enter a word: ";
+		getline(cin, myString);
+		cout << '\n';
+		for (i = 0; i< myString.length(); i++){
+			myChar = myString[i];
+			q.push(myChar); 
+			s.push(myChar);
+		}
+		while (!q.empty() && !s.empty()){
+			if (q.front() != s.top()){
+				cout << "The word " << myString << " is not a palindrome" << endl;
+					break;
+			}
+			else if (q.front() = s.top()){
+					i++;
+					q.pop();
+					s.pop();
+					if (i = myString.length()){
+							cout << "The word " << myString << " is a palindrome" << endl;
+							break;
+							}
+					}
+			}
+		cin.get();
+		return 0;
+}
+/*
+Please enter a word: madam
+
+The word madam is a palindrome
+*/
