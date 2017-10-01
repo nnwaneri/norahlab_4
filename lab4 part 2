@@ -1,0 +1,79 @@
+//Norah Nwaneri
+#include <iostream>
+#include <string>
+#include <stack>
+using namespace std;
+
+int getWeight(char myChar) {
+	switch (myChar) {
+	case '/':
+	case '*': return 2;
+	case '+':
+	case '-': return 1;
+	default: return 0;
+	}
+}
+void infix2postfix(char infix[], char postfix[], int size) {
+	stack<char> s;
+	int weight;
+	int i = 0;
+	int k = 0;
+	char myChar; 
+	while (i < size) {
+		myChar = infix[i];
+		if (myChar == '(') {
+			s.push(myChar);
+			i++;
+			continue;
+		}
+		if (myChar == ')') {
+			while (!s.empty() && s.top() != '(') {
+				postfix[k++] = s.top();
+				s.pop();
+			}
+			if (!s.empty()) {
+				s.pop();
+			}
+			i++;
+			continue;
+		}
+		weight = getWeight(myChar);
+		if (weight == 0) {
+			postfix[k++] = myChar;
+		}
+		else {
+			if (s.empty()) {
+				s.push(myChar);
+			}
+			else {
+				while (!s.empty() && s.top() != '(' &&
+					weight <= getWeight(s.top())) {
+					postfix[k++] = s.top();
+					s.pop();
+				}
+				s.push(myChar);
+			}
+		}
+		i++;
+	} 
+	while (!s.empty()) {
+		postfix[k++] = s.top();
+		s.pop();
+	}
+	postfix[k] = 0;  
+}
+
+int main() {
+	char infix[] = "8 * (1 + 4)";
+	int size = strlen(infix);
+	char postfix[1000];
+	infix2postfix(infix, postfix, size);
+	cout << "\nInfix Expression : " << infix;
+	cout << "\nPostfix Expression : " << postfix;
+	cout << endl;
+	return 0;
+}
+/*
+Infix Expression: 5 + ((1 + 2) * 4) - 3
+Postfix Expression: 5  1  2+  4* + 3-
+*/
